@@ -1,0 +1,350 @@
+
+
+    <!DOCTYPE html>
+    <html lang="en" dir="ltr">
+    
+    <head>
+      <meta charset="utf-8">
+      <title>E-PAJAMAS</title>
+      
+      <link rel="stylesheet" href="/css/styles.css">
+      
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+      <link href="https://fonts.googleapis.com/css?family=Merriweather|Montserrat|Sacramento|Roboto" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    
+      <nav class="navbar navbar-light" style="background-color: #74eb88;" >
+        <div class="container">
+          <div class="navbar-header">
+            <h6 class="navbar-brand">SMART METER</h6>
+            
+            
+            
+          </div>
+    
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#ambuj">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+    
+              <div class="collapse navbar-collapse" id="ambuj">
+              <ul class="nav navbar-nav navbar-right mx-auto">
+                <li class="nav-item " id="home"><a class = "nav-link nv" href="/">HOME</a></li>
+                <li class="nav-item" id="compose"><a class = "nav-link nv" href="/login">LOGIN</a></li>
+                <li class="nav-item" id="compose"><a class = "nav-link nv" href="/login">LOGOUT</a></li>                                
+                
+              </ul>
+            </div>
+        </div>
+      </nav>
+    </head>
+      
+<body >
+
+
+<!-- Price Forecasting Tables -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="panel panel-primary">
+                <div class="panel-heading ">
+                    <h5 style="font-weight: bold;">Price Forecasting one-day ahead</h5>
+                </div>
+                <div class="panel-body">
+                   
+
+                    <table style="width:100%" class="table table-striped " id="customers" >
+                      <thead>
+                        <tr>
+                          <th style = "background-color:rgb(31, 156, 88);" >Time</th>
+                          <% var l = day.length   %> 
+                          <% for(var i = 0; i< l/2;i++) { %>            
+                            <th scope="col"><%= day[i] %>:00</th>        
+                          <%  } %>
+                      </tr>
+                      </thead>
+                      <tbody>
+                     <tr scope="row">  
+                     <th style = "background-color:rgb(31, 156, 88);">Price</th>
+                     <% for(var i = 0; i< l/2;i++) { %>            
+                            <td scope="col"><%= prices[i] %></td>        
+                          <%  } %>
+                      </tr>
+                      </tbody>
+                
+                </table>
+                
+                 <table style="width:100%" class="table table-striped " id="customers" >
+                      <thead>
+                        <tr>
+                          <th style = "background-color:rgb(31, 156, 88);">Time</th>
+                          <% for(var i = 0; i< l/2;i++) { %>            
+                            <th scope="col"><%= day[i + l/2 ] %>:00</th>        
+                          <%  } %>
+                      </tr>
+                      </thead>
+                      <tbody>
+                     <tr scope="row">  
+                     <th style = "background-color:rgb(31, 156, 88);">Price</th>
+                     <% for(var i = 0; i< l/2;i++) { %>            
+                            <td scope="col"><%= prices[i+l/2] %></td>        
+                          <%  } %>
+                      </tr>
+                      </tbody>
+                
+                </table>
+
+
+
+                </div>
+            </div>
+        </div>
+
+
+<!-- Load Management  Section-->
+
+        <div class="col-md-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h5 style="font-weight: bold;">Load Management</h5>
+                </div>
+                <div class="box">
+                    <%  newListItems.forEach(function(item){ %>                      
+                        <form action="/delete" method="post">
+                        <div class="item">    
+                          <input type="checkbox" name ="checkflag" onChange="this.form.submit()">                                               
+                          <input type="hidden" name="checkbox" value="<%=item.name%>" >
+                          <p ><%=item.name%></p>
+                          
+                        </div>
+                       
+                      </form>        
+
+                    <%  }) %>
+                  
+                  
+                        <form class="item" action="/" method="post">
+                          <input type="text" name="newItem" placeholder="New Item" autocomplete="off">
+                          <button type="submit" name="list" >+</button>
+                        </form>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>   
+
+
+
+
+<!-- Part 2  -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h5 style="font-weight: bold;">Weekly Energy Consumption (in kWh)</h5>
+                </div>
+                <div class="panel-body">
+                    <div id="chart1"></div>
+                </div>
+            </div>
+        </div>
+
+<!-- Billing System -->
+
+        <div class="col-md-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h5 style="font-weight: bold;">Latest Bills</h5>
+                </div>
+                
+                <table class="table table-dark">
+                    <thead>
+                      <tr>
+                        <th scope="col">Amount (in ₹)</th>
+                        <th scope="col">Date </th>
+                        <th scope="col">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">300.5</th>
+                        <td>12/04/2020</td>                     
+                        <td><a class="btn btn-primary btn-sm active" href="payment" role="button">Due</a> </td>
+                      </tr>
+                      <tr>
+                        <th scope="row">2500.99</th>
+                        <td>01/01/2019</td>                     
+                        <td><a class="btn btn-success btn-sm active" href="#" role="button">Paid</a> </td>
+                      </tr>
+                      <tr>
+                        <th scope="row">300.5</th>
+                        <td>12/04/2019</td>                     
+                        <td><a class="btn btn-success btn-sm active" href="#" role="button">Paid</a> </td>
+                      </tr>
+                      <tr>
+                        <th scope="row">300.5</th>
+                        <td>12/04/2019</td>                     
+                        <td><a class="btn btn-success btn-sm active" href="#" role="button">Paid</a> </td>
+                      </tr>
+                      <tr>
+                        <th scope="row">300.5</th>
+                        <td>12/04/2019</td>                     
+                        <td><a class="btn btn-success btn-sm active" href="#" role="button">Paid</a> </td>
+                      </tr>
+                      <tr>
+                        <th scope="row">809.5</th>
+                        <td>12/04/2018</td>                     
+                        <td><a class="btn btn-success btn-sm active" href="#" role="button">Paid</a> </td>
+                      </tr>
+                      <tr>
+                        <th scope="row">990.5</th>
+                        <td>12/04/2017</td>                     
+                        <td><a class="btn btn-success btn-sm active" href="#" role="button">Paid</a> </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>   
+
+
+<!-- Part 3 -->
+
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-9">
+          <div class="panel panel-primary">
+              <div class="panel-heading">
+                  <h5 style="font-weight: bold;">Monthly Energy Consumption (in kWh)</h5>
+              </div>
+              <div class="panel-body">
+                  <div id="chart2"></div>
+              </div>
+          </div>
+      </div>
+
+<!-- Billing System -->
+
+      <div class="col-md-3">
+          <div class="panel panel-primary">
+              <div class="panel-heading">
+                  <h5 style="font-weight: bold;">Control Load (ON / OFF)</h5>
+              </div>
+              
+              <div class="box">
+
+
+                <%  newListItems.forEach(function(item){ %>                  
+                  
+                    <form action="/control" method="post">
+                    <div class="item">    
+                      <input type="checkbox" name ="checkflag" onChange="this.form.submit()">                                               
+                      <input type="hidden" name="checkbox" value="<%=item.name%>" >
+                      <p ><%=item.name%></p>                      
+                    </div>
+                   
+                  </form>
+                 
+                 
+
+                <%  }) %>
+              
+             
+                </div>
+
+              </div>
+          </div>
+      </div>
+  </div>   
+
+
+
+<!-- you need to include the shieldui css and js assets in order for the charts to work -->
+
+<link rel="stylesheet" type="text/css" href="http://www.shieldui.com/shared/components/latest/css/light/all.min.css" />
+<script type="text/javascript" src="http://www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
+
+<script type="text/javascript">    
+    jQuery(function ($) {       
+       var x = [1,2,3,4,5,6,7,8,9,10,11,12];
+        var data1 = [11,8,23,20,17,16,15,18,13,15,12,19];          
+        var data2 = [111,108,131,120,117,116,119,113,13,151,121,119]; 
+        $("#chart1").shieldChart({
+            theme: "dark",
+
+            exportOptions: {
+                image: false,
+                print: false
+            },
+            axisX: {
+                categoricalValues: x
+            },
+            primaryHeader: {
+                 text: "Past Eletricity Consumption"
+             },
+            axisY: {
+                title: {
+                    text: "Consumption History"
+                }                
+            },
+            dataSeries: [{
+                seriesType: "bar",
+                collectionAlias: "Energy Consumption",
+                data: data1
+            }]
+        });
+
+
+        $("#chart2").shieldChart({
+            theme: "dark",
+
+            exportOptions: {
+                image: false,
+                print: false
+            },
+            axisX: {
+                categoricalValues: x
+            },
+            primaryHeader: {
+                 text: "Past Eletricity Consumption"
+             },
+            axisY: {
+                title: {
+                    text: "Consumption History"
+                }                
+            },
+            dataSeries: [{
+                seriesType: "bar",
+                collectionAlias: "Energy Consumption",
+                data: data2
+            }]
+        });
+
+
+
+      
+    });
+</script>
+
+<!-- Bar Chart - END -->
+
+
+
+
+</body>
+</html>

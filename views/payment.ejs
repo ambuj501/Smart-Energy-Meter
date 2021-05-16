@@ -1,0 +1,20 @@
+
+<!DOCTYPE html> 
+<html> 
+<title> Payment Demo</title> 
+<body> 
+    <h3>Welcome to Payment Gateway Dont Refresh the pages</h3> 
+    <form action="payment" method="POST"> 
+    <script
+        src="//checkout.stripe.com/v2/checkout.js"
+        class="stripe-button"
+        data-key="<%= key %>" 
+        data-amount="30050" 
+        data-currency="inr" 
+        data-name="Ambuj Mishra" 
+        data-description="Pay Your Electricity Bills" 
+        data-locale="auto" > 
+        </script> 
+    </form> 
+</body> 
+</html>
